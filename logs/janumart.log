@@ -1,0 +1,6 @@
+2026-10-06 22:10:31.798 [Catalina-utility-1] INFO  c.j.listener.AppContextListener - ========== JanuMart starting up ==========
+2026-10-06 22:10:33.348 [Catalina-utility-1] INFO  com.janumart.util.DBUtil - HikariCP pool initialised (jdbc:h2:file:./data/janumart;AUTO_SERVER=TRUE).
+2026-10-06 22:10:33.665 [Catalina-utility-1] INFO  c.j.listener.AppContextListener - Database schema ready.
+2026-10-06 22:10:34.118 [Catalina-utility-1] INFO  c.j.listener.AppContextListener - Seed data loaded (fresh database).
+2026-10-06 22:10:34.118 [Catalina-utility-1] INFO  c.j.listener.AppContextListener - JanuMart started successfully.
+2026-10-06 22:14:23.131 [http-nio-8080-exec-16] DEBUG com.janumart.controller.ApiServlet - Request failed (POST /auth/login): Invalid email or password.

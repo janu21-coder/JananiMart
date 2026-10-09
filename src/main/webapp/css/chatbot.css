@@ -1,0 +1,385 @@
+/* ==========================================================================
+   Janu AI Shopping Assistant — chat widget
+   Built on the existing JanuMart design tokens (see css/style.css :root).
+   All classes are prefixed "janu-" to avoid clashing with page styles.
+   ========================================================================== */
+
+.janu-chat-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 22px;
+  z-index: 1200;
+  width: 58px;
+  height: 58px;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  background: linear-gradient(135deg, #7c6cf0 0%, #8f7bf0 55%, #ef5da8 130%);
+  box-shadow: 0 10px 30px rgba(124, 108, 240, 0.38);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.janu-chat-fab:hover {
+  transform: translateY(-3px) scale(1.04);
+  box-shadow: 0 16px 38px rgba(124, 108, 240, 0.46);
+}
+.janu-chat-fab:active {
+  transform: scale(0.96);
+}
+.janu-chat-fab svg {
+  width: 27px;
+  height: 27px;
+}
+
+/* Chat window */
+.janu-chat {
+  position: fixed;
+  right: 22px;
+  bottom: 92px;
+  z-index: 1300;
+  width: 384px;
+  max-width: calc(100vw - 32px);
+  height: min(560px, calc(100vh - 140px));
+  min-height: 340px;
+  display: none;
+  flex-direction: column;
+  background: #fbfaff;
+  border: 1px solid #ece7f8;
+  border-radius: 18px;
+  box-shadow: 0 18px 40px rgba(124, 108, 240, 0.22);
+  overflow: hidden;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+}
+.janu-chat.open {
+  display: flex;
+}
+
+/* Header */
+.janu-chat-head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  color: #fff;
+  background: linear-gradient(135deg, #7c6cf0 0%, #8f7bf0 60%, #ef5da8 140%);
+}
+.janu-avatar {
+  width: 38px;
+  height: 38px;
+  flex: 0 0 38px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.22);
+  display: grid;
+  place-items: center;
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  letter-spacing: 0.5px;
+}
+.janu-chat-title {
+  flex: 1;
+  min-width: 0;
+}
+.janu-chat-title strong {
+  display: block;
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.janu-chat-title span {
+  display: block;
+  font-size: 11px;
+  opacity: 0.85;
+  margin-top: 1px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.janu-head-btn {
+  flex: 0 0 auto;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  padding: 0;
+}
+.janu-head-btn:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+.janu-head-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Messages */
+.janu-chat-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 14px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  scroll-behavior: smooth;
+}
+.janu-mode-tag {
+  align-self: center;
+  font-size: 10px;
+  color: #6f6a85;
+  background: #ece7f8;
+  border-radius: 999px;
+  padding: 2px 9px;
+  letter-spacing: 0.4px;
+}
+.janu-msg {
+  max-width: 86%;
+  padding: 9px 13px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.janu-msg.user {
+  align-self: flex-end;
+  background: #7c6cf0;
+  color: #fff;
+  border-radius: 16px 16px 4px 16px;
+}
+.janu-msg.assistant {
+  align-self: flex-start;
+  background: #ffffff;
+  color: #26243a;
+  border: 1px solid #ece7f8;
+  border-radius: 16px 16px 16px 4px;
+}
+.janu-msg.error {
+  align-self: flex-start;
+  background: #fdf0f7;
+  color: #b12a70;
+  border: 1px solid #f3c8de;
+  border-radius: 16px 16px 16px 4px;
+}
+
+/* Typing indicator */
+.janu-typing {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 10px 14px;
+}
+.janu-typing i {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8f7bf0;
+  animation: janu-bounce 1.2s infinite ease-in-out;
+}
+.janu-typing i:nth-child(2) { animation-delay: 0.15s; }
+.janu-typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes janu-bounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.5; }
+  30% { transform: translateY(-5px); opacity: 1; }
+}
+
+/* Product recommendation cards */
+.janu-products {
+  align-self: stretch;
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 2px 2px 8px;
+  scroll-snap-type: x mandatory;
+}
+.janu-card {
+  flex: 0 0 148px;
+  scroll-snap-align: start;
+  background: #ffffff;
+  border: 1px solid #ece7f8;
+  border-radius: 14px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.janu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(124, 108, 240, 0.16);
+}
+.janu-card img {
+  display: block;
+  width: 100%;
+  height: 104px;
+  object-fit: cover;
+  background: #f4f1ff;
+}
+.janu-card-body {
+  padding: 8px 9px 10px;
+}
+.janu-card-cat {
+  font-size: 10px;
+  font-weight: 600;
+  color: #8f7bf0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+}
+.janu-card-name {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: #26243a;
+  line-height: 1.35;
+  min-height: 34px;
+}
+.janu-card-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  margin-top: 6px;
+}
+.janu-card-price {
+  font-family: "Poppins", "Segoe UI", system-ui, sans-serif;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #7c6cf0;
+}
+.janu-card-stock {
+  font-size: 10px;
+  color: #22a06b;
+  font-weight: 600;
+}
+
+/* Suggestion chips */
+.janu-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+  padding: 0 14px 4px;
+}
+.janu-chip {
+  border: 1px solid #d9d1f7;
+  background: #f4f1ff;
+  color: #4c4863;
+  border-radius: 999px;
+  padding: 5px 11px;
+  font-size: 12px;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.janu-chip:hover {
+  background: #7c6cf0;
+  border-color: #7c6cf0;
+  color: #fff;
+}
+
+/* Input row */
+.janu-chat-input {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+  padding: 10px 12px 12px;
+  border-top: 1px solid #ece7f8;
+  background: #ffffff;
+}
+.janu-chat-input textarea {
+  flex: 1;
+  resize: none;
+  border: 1px solid #e2dbf6;
+  border-radius: 12px;
+  background: #fbfaff;
+  color: #26243a;
+  font-size: 13.5px;
+  font-family: inherit;
+  line-height: 1.4;
+  padding: 9px 11px;
+  max-height: 84px;
+}
+.janu-chat-input textarea:focus {
+  outline: 2px solid #7c6cf0;
+  outline-offset: 1px;
+  border-color: transparent;
+}
+.janu-send {
+  flex: 0 0 40px;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #7c6cf0, #ef5da8);
+  color: #fff;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+.janu-send:hover { transform: translateY(-1px); }
+.janu-send:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  transform: none;
+}
+.janu-send svg {
+  width: 18px;
+  height: 18px;
+}
+.janu-charlimit {
+  padding: 3px 14px 8px;
+  font-size: 10.5px;
+  color: #6f6a85;
+  text-align: right;
+}
+.janu-charlimit.warn {
+  color: #d97706;
+}
+
+/* Modal-like scrim on small screens (optional, keeps page controls visible) */
+@media (max-width: 520px) {
+  .janu-chat {
+    right: 16px;
+    bottom: 84px;
+    left: 16px;
+    width: auto;
+    height: min(72vh, 600px);
+  }
+  .janu-chat-fab {
+    right: 16px;
+    bottom: 16px;
+    width: 54px;
+    height: 54px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .janu-typing i {
+    animation: none;
+    opacity: 0.6;
+  }
+  .janu-chat-fab,
+  .janu-card,
+  .janu-send {
+    transition: none;
+  }
+  .janu-chat-body {
+    scroll-behavior: auto;
+  }
+}
+
+/* Never show the widget on print */
+@media print {
+  .janu-chat-fab,
+  .janu-chat {
+    display: none !important;
+  }
+}

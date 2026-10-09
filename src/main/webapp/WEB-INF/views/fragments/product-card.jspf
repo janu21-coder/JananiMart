@@ -1,0 +1,36 @@
+<c:url value="/images/fallback.svg" var="fbUrl"/>
+<c:set var="pjImg" value="${empty p.imageUrl ? fbUrl : p.imageUrl}"/>
+<fmt:formatNumber value="${p.price}" type="number" minFractionDigits="2" maxFractionDigits="2" var="pjPrice"/>
+<div class="product-card">
+  <a class="product-img" href="${ctx}/product?id=${p.id}">
+    <img src="${fn:escapeXml(pjImg)}" alt="${fn:escapeXml(p.name)}" loading="lazy" onerror="this.onerror=null;this.src='${ctx}/images/fallback.svg';">
+  </a>
+  <div class="product-body">
+    <div class="product-brand">${fn:escapeXml(empty p.brand ? p.category : p.brand)}</div>
+    <a class="product-name" href="${ctx}/product?id=${p.id}">${fn:escapeXml(p.name)}</a>
+    <div class="stars-row">
+      <c:choose>
+        <c:when test="${not empty p.avgRating}">
+          <fmt:formatNumber value="${p.avgRating}" maxFractionDigits="1" var="pjRating"/>
+          <span class="stars">★★★★★<span class="stars-fill" style="width:${p.avgRating * 20}%">★★★★★</span></span>
+          <span class="rating-text">${pjRating}</span><span>(${p.ratingCount})</span>
+        </c:when>
+        <c:otherwise>
+          <span class="muted">New arrival</span>
+        </c:otherwise>
+      </c:choose>
+    </div>
+    <div class="product-seller">by <b>${fn:escapeXml(empty p.sellerName ? 'JanuMart' : p.sellerName)}</b></div>
+    <div class="product-foot">
+      <span class="product-price">₹${pjPrice}</span>
+      <c:choose>
+        <c:when test="${p.inStock}">
+          <button type="button" class="btn btn-sm btn-primary add-cart" data-id="${p.id}">Add to Cart</button>
+        </c:when>
+        <c:otherwise>
+          <span class="stock-out">Out of Stock</span>
+        </c:otherwise>
+      </c:choose>
+    </div>
+  </div>
+</div>

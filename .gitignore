@@ -1,0 +1,23 @@
+# --- Local secret files (never commit) ---
+.env
+*.env
+.env.local
+
+# --- Java / Maven build output ---
+target/
+*.class
+
+# --- IDE / OS ---
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+.DS_Store
+Thumbs.db
+
+# --- Runtime data (H2 database files) ---
+data/
+*.mv.db
+*.trace.db
